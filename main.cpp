@@ -12,19 +12,30 @@ struct Nodo
 	Nodo * der;
 };
 
-void insertar(Nodo *&arbol, const int n, Nodo *padre);
-void mostrar(Nodo *&arbol, int espaciado);
+void insertar(Nodo *&arbol, const int n, Nodo * padre);
+void mostrar(Nodo * arbol, int espaciado);
+void preOrder(Nodo * arbol);
+void inOrder(Nodo * arbol);
+void postOrder(Nodo * arbol);
 void eliminar(Nodo *&arbol);
 
+
 int main() {
+	int datos[] = {8,3,1,6,4,7,10,14,13};
 	Nodo * arbol = NULL;
 	random_device rd;
 	mt19937 engine(rd());
 	uniform_int_distribution<int> intDistribution(0, 99);
 	intDistribution(engine);
-	for (int i = 0; i < 10; i++)
-		insertar(arbol, intDistribution(engine), NULL);
+	for (int i = 0; i < 9; i++)
+		insertar(arbol, datos[i]/*intDistribution(engine)*/, NULL);
 	mostrar(arbol, 0);
+	preOrder(arbol);
+	printf("\n");
+	inOrder(arbol);
+	printf("\n");
+	postOrder(arbol);
+	printf("\n");
 	system("PAUSE");
 	return 0;
 }
@@ -47,7 +58,7 @@ void insertar(Nodo *&arbol,  const int n, Nodo *padre)
 			insertar(arbol->der, n , arbol);
 }
 
-void mostrar(Nodo *&arbol, int espaciado)
+void mostrar(Nodo *arbol, int espaciado)
 {
 	if (!arbol)
 		return;
@@ -58,6 +69,45 @@ void mostrar(Nodo *&arbol, int espaciado)
 			printf("     ");
 		printf("%d\n", arbol->dato);
 		mostrar(arbol->izq, espaciado+1);
+	}
+}
+
+void preOrder(Nodo * arbol) {
+	if (!arbol)
+	{
+		return;
+	}
+	else
+	{
+		printf("%d ", arbol->dato);
+		preOrder(arbol->izq);
+		preOrder(arbol->der);
+	}
+}
+
+void inOrder(Nodo * arbol) {
+	if (!arbol)
+	{
+		return;
+	}
+	else
+	{
+		inOrder(arbol->izq);
+		printf("%d ", arbol->dato);
+		inOrder(arbol->der);
+	}
+}
+
+void postOrder(Nodo * arbol) {
+	if (!arbol)
+	{
+		return;
+	}
+	else
+	{
+		postOrder(arbol->izq);
+		postOrder(arbol->der);
+		printf("%d ", arbol->dato);
 	}
 }
 
